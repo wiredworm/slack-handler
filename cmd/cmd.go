@@ -55,7 +55,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 		log.Println("GET Method Called")
 
-		if request.Resource == "animal" {
+		if request.Resource == "/animal" {
 
 			log.Println("GET called on animal resource")
 
