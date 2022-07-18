@@ -4,11 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/url"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
 )
+
+var animals = []string{"Donkey", "Monkey", "Lion", "Tiger", "Bear", "Elephant"}
 
 type Payload struct {
 	Sample string `json:"sample"`
@@ -44,15 +47,34 @@ func getRequestPayload(request events.APIGatewayProxyRequest) (Payload, error) {
 
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
+	log.Println("Handler Started")
+	log.Println("JSON Request:")
 	log.Println(JSONify(request))
 
+	if request.HTTPMethod == "GET" {
+
+		log.Println("GET Method Called")
+
+		if request.Resource == "animal" {
+
+			log.Println("GET called on animal resource")
+
+			selectedAnimal := animals[rand.Intn(len(animals))]
+
+			return events.APIGatewayProxyResponse{
+				Body:       selectedAnimal,
+				StatusCode: 200,
+			}, nil
+		}
+	}
+
 	payload, err := getRequestPayload(request)
-	_ = err
+	_, _ = payload, err
 
 	return events.APIGatewayProxyResponse{
 		Body: Response{
 			ReplaceOriginal: true,
-			Text:            payload.Sample,
+			Text:            "Success",
 		}.ToString(),
 		StatusCode: 200,
 	}, nil
