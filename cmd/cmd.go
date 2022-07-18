@@ -23,7 +23,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	return events.APIGatewayProxyResponse{
 		Body: Response{
 			ReplaceOriginal: true,
-			Text:            "Success",
+			Text:            "R:Tape Loading Error",
 		}.ToString(),
 		StatusCode: 200,
 	}, nil
