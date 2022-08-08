@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"net/url"
+	"os"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -47,9 +48,12 @@ func getRequestPayload(request events.APIGatewayProxyRequest) (Payload, error) {
 
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
-	log.Println("Handler Started")
+	log.Println("Handler Started (v1.0.0)")
 	log.Println("JSON Request:")
 	log.Println(JSONify(request))
+
+	wh := os.Getenv("WEBHOOK_URI")
+	log.Println("WEBHOOK_URI: ", wh)
 
 	if request.HTTPMethod == "GET" {
 
